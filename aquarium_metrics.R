@@ -1,5 +1,3 @@
-install.packages("googlesheets")
-
 library(googlesheets)
 library(tidyverse)
 library(lubridate)
@@ -30,19 +28,17 @@ df_aquarium_metrics_last <-  df_aquarium_metrics %>%
   summarize(measurement = last(measurement))
 
 df_aquarium_metrics %>% 
-  #group_by(metric) %>% 
-  #mutate(last_measurement = last(measurement)) %>% 
   filter(before_after == "After") %>% 
   ggplot(aes(metric, measurement)) +
   geom_hline(aes(yintercept = min), color = "red") +
   geom_hline(aes(yintercept = max), color = "red", linetype = 2) +
   geom_jitter(alpha = .5,
-              width = .1) +
-  geom_text_repel(data = df_aquarium_metrics, aes(x = metric, y = measurement, label = measurement), segment.size = 5) +
+              width = .1,
+              height = 0) +
+  #geom_label_repel(data = df_aquarium_metrics_last, aes(x = metric, y = measurement, label = measurement), segment.size = 5) +
   facet_wrap(~metric, 
              scales = "free")
-
-?geom_label_repel
+ggsave(paste0("Aquarium metrics summary ", Sys.Date(), ".png"))
 
 df_aquarium_metrics %>% 
   filter(before_after == "After") %>% 
@@ -53,4 +49,4 @@ df_aquarium_metrics %>%
   geom_line() +
   facet_wrap(~metric,
              scales = "free_y")
-  
+ggsave(paste0("Aquarium metrics timeline ", Sys.Date(), ".png"))
