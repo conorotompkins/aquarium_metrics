@@ -38,7 +38,7 @@ df_aquarium_metrics %>%
   #geom_label_repel(data = df_aquarium_metrics_last, aes(x = metric, y = measurement, label = measurement), segment.size = 5) +
   facet_wrap(~metric, 
              scales = "free")
-ggsave(paste0("Aquarium metrics summary ", Sys.Date(), ".png"))
+ggsave(paste0("images/Aquarium metrics summary ", Sys.Date(), ".png"))
 
 df_aquarium_metrics %>% 
   filter(before_after == "After") %>% 
@@ -49,4 +49,4 @@ df_aquarium_metrics %>%
   geom_line() +
   facet_wrap(~metric,
              scales = "free_y")
-ggsave(paste0("Aquarium metrics timeline ", Sys.Date(), ".png"))
+ggsave(paste0("images/Aquarium metrics timeline ", Sys.Date(), ".png"))
