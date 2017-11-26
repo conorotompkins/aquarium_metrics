@@ -25,7 +25,10 @@ df_aquarium_metrics <- df_aquarium_metrics %>%
 
 df_aquarium_metrics_last <-  df_aquarium_metrics %>% 
   group_by(metric) %>% 
-  summarize(measurement = last(measurement))
+  summarize(last_measurement = last(measurement))
+
+df_aquarium_metrics %>% 
+  left_join(df_aquarium_metrics_last) -> df_aquarium_metrics
 
 df_aquarium_metrics %>% 
   filter(before_after == "After") %>% 
@@ -35,7 +38,7 @@ df_aquarium_metrics %>%
   geom_jitter(alpha = .5,
               width = .1,
               height = 0) +
-  #geom_label_repel(data = df_aquarium_metrics_last, aes(x = metric, y = measurement, label = measurement), segment.size = 5) +
+  #geom_label_repel(aes(x = metric, y = last_measurement, label = last_measurement), segment.size = 5) +
   facet_wrap(~metric, 
              scales = "free")
 ggsave(paste0("images/Aquarium metrics summary ", Sys.Date(), ".png"))
